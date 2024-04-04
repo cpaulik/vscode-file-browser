@@ -91,6 +91,10 @@
             {
                 "command": "file-browser.actions",
                 "title": "File Browser: Actions"
+            },
+            {
+                "command": "file-browser.openAlternate",
+                "title": "File Browser: open Alternate"
             }
         ],
         "keybindings": [
@@ -117,6 +121,11 @@
             {
                 "key": "shift+tab",
                 "command": "file-browser.tabPrev",
+                "when": "inFileBrowser"
+            },
+            {
+                "key": "ctrl+c",
+                "command": "file-browser.openAlternate",
                 "when": "inFileBrowser"
             }
         ]

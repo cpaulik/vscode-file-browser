@@ -304,6 +304,22 @@ class FileBrowser {
         });
     }
 
+    acceptAlternate() {
+        this.autoCompletion = undefined;
+        this.activeItem().ifSome((item) => {
+            if (item.action !== undefined) {
+                this.runAction(item);
+            } else if (
+                item.fileType !== undefined &&
+                (item.fileType & FileType.Directory) === FileType.Directory
+            ) {
+                this.stepIn();
+            } else {
+                this.openFile(this.path.append(item.name).uri, ViewColumn.Beside);
+            }
+        });
+    }
+
     openFile(uri: Uri, column: ViewColumn = ViewColumn.Active) {
         this.dispose();
         vscode.workspace
@@ -472,6 +488,11 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.commands.registerCommand("file-browser.actions", () =>
             active.ifSome((active) => active.actions())
+        )
+    );
+    context.subscriptions.push(
+        vscode.commands.registerCommand("file-browser.openAlternate", () =>
+            active.ifSome((active) => active.acceptAlternate())
         )
     );
     context.subscriptions.push(
